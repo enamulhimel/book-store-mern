@@ -1,5 +1,5 @@
 import React from 'react';
-import useState from 'react';
+import { useState } from 'react';
 import BackButton from '../components/BackButton';
 import Spinner from '../components/Spinner';
 import axios from 'axios';
@@ -11,18 +11,20 @@ const CreateBooks = () => {
 	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
 
-	const handleSaveBook = () => {
+	const handleSaveBook = async () => {
 		const data = {
 			title,
 			author,
 			publishYear,
 		};
+		// console.log(data);
 		setLoading(true);
-		axios
-			.post('http://localhost:5555/books', data)
+		await axios
+			.post('http://localhost:5555/books/create-book', data)
 			.then(res => {
 				console.log(res);
 				setLoading(false);
+				alert('Book created successfully');
 				navigate('/');
 			})
 			.catch(err => {
@@ -54,17 +56,17 @@ const CreateBooks = () => {
 						type="text"
 						className="border-2 border-gray-400 px-4 py-2 rounded-lg w-full"
 						value={author}
-						onChange={e => setTitle(e.target.value)}
+						onChange={e => setAuthor(e.target.value)}
 						placeholder="Enter book Author"
 					/>
 				</div>
 				<div className="my-4">
 					<label className="text-xl mr-4 text-gray-500">Publish Year:</label>
 					<input
-						type="text"
+						type="number"
 						className="border-2 border-gray-400 px-4 py-2 rounded-lg w-full"
 						value={publishYear}
-						onChange={e => setTitle(e.target.value)}
+						onChange={e => setPublishYear(e.target.value)}
 						placeholder="Enter book Publish Year"
 					/>
 				</div>

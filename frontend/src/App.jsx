@@ -24,8 +24,8 @@ export default function App() {
 			<Route path="/" element={<Home />} />
 			<Route path="/books/create" element={<CreateBooks />} />
 			<Route path="/books/details/:id" element={<ShowBook />} />
-			<Route path="/books/edit/:id" element={<EditBook />} />
-			<Route path="/books/delete/:id" element={<DeleteBook />} />
+			<Route path="/books/edit-book/:id" element={<EditBook />} />
+			<Route path="/books/delete-book/:id" element={<DeleteBook />} />
 		</Routes>
 	);
 }

@@ -1,9 +1,9 @@
 import express from 'express';
-import { book } from '../models/bookmodel.js';
+import { Book } from '../models/bookmodel.js';
 
 const router = express.Router(); // Fixed
 
-router.post('/', async (req, res) => {
+router.post('/create-book', async (req, res) => {
 	try {
 		if (!req.body.title || !req.body.author || !req.body.publishYear) {
 			return res
@@ -15,8 +15,7 @@ router.post('/', async (req, res) => {
 			author: req.body.author,
 			publishYear: req.body.publishYear,
 		};
-		const book2 = await book.create(newBook);
-		console.log(book2);
+		const book = await Book.create(newBook);
 		return res.status(201).send(book);
 	} catch (error) {
 		console.log(error.message); // Fixed
@@ -26,7 +25,7 @@ router.post('/', async (req, res) => {
 //get all books
 router.get('/', async (req, res) => {
 	try {
-		const books = await book.find({}); // Fixed
+		const books = await Book.find({}); // Fixed
 		return res.status(200).json({
 			count: books.length,
 			data: books, // Fixed
@@ -41,7 +40,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
 	try {
 		const { id } = req.params; // Fixed
-		const books = await book.findById(id); // Fixed
+		const books = await Book.findById(id); // Fixed
 		return res.status(200).json(books); // Fixed
 	} catch (error) {
 		console.log(error.message); // Fixed
@@ -50,7 +49,7 @@ router.get('/:id', async (req, res) => {
 });
 
 //update one book by id
-router.put('/:id', async (req, res) => {
+router.put('/edit-book/:id', async (req, res) => {
 	try {
 		if (!req.body.title || !req.body.author || !req.body.publishYear) {
 			return res
@@ -58,7 +57,7 @@ router.put('/:id', async (req, res) => {
 				.send({ message: 'Please provide all required fields' });
 		}
 		const { id } = req.params; // Fixed
-		const result = await book.findByIdAndUpdate(id, req.body);
+		const result = await Book.findByIdAndUpdate(id, req.body);
 		if (!result) {
 			return res.status(404).send({ message: 'Book not found' }); // Fixed
 		}
@@ -70,10 +69,10 @@ router.put('/:id', async (req, res) => {
 });
 
 //delete one book by id
-router.delete('/:id', async (req, res) => {
+router.delete('/delete-book/:id', async (req, res) => {
 	try {
 		const { id } = req.params; // Fixed
-		const result = await book.findByIdAndDelete(id); // Fixed
+		const result = await Book.findByIdAndDelete(id); // Fixed
 		if (!result) {
 			return res.status(404).send({ message: 'Book not found' }); // Fixed
 		}
